@@ -25,7 +25,7 @@ $this->load->view('header2', $udaj);
                         <a class="page-scroll btn btn-info" href=""><?php echo $this->session->userdata['loginname']; ?></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="<?= base_url() ?>users">Users</a>
+                        <a class="page-scroll" href="<?= base_url() ?>users">Users</a>.
                     </li>
                     <li>
                         <a class="page-scroll" href="<?= base_url() ?>auth/logout">Sign out</a>
@@ -63,9 +63,10 @@ $this->load->view('header2', $udaj);
                         echo '</a>';
                     }
                 } else {
-                    $data = $this->events_model->getUserEvents($user['loginname']);
+                    $data = $this->events_model->getUserEvents();
                     foreach ($data as $row) {
                         echo '<a class="btn btn-warning btn-xl page-scroll" href="';
+                     
                         echo base_url("events/displayEvent/" . $row['id']);
                         echo '">';
                         echo $row['name'];
