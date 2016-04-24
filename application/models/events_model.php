@@ -5,33 +5,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Events_model extends CI_Model {
 
     function addNewEvent() {
+        $n = $_POST['name'];
         $data = array(
-            'name' => $_POST['name'],
+            'name' => $n,
             'description' => $_POST['description'],
             'create_by' => $this->session->userdata['loginname'],
             'event_date' => $_POST['date'],
             'state' => 'NEW',
         );
-
-        return $this->db->insert('events', $data);
+        if ($this->db->insert('events', $data)) {
+            $select = $this->db->select('id')
+                    ->where('name', $n)
+                    ->get('events');
+            $id = $select->row_array();
+        }
+        $data2 = array(
+            'user_id' => $this->session->userdata['id'],
+            'event_id' => $id['id'],
+        );
+        return $this->db->insert('user_has_event', $data2);
     }
 
-    function saveContent($cb, $id,$name) {
+    function saveContent($cb, $id, $name) {
         if ($cb == 0) {
             $data = array(
                 'equipped' => 0,
                 'equipped_by' => '',
             );
-        }else{
+        } else {
             $data = array(
-            'equipped' => 1,
-            'equipped_by' => $this->session->userdata['loginname'],
-        );
+                'equipped' => 1,
+                'equipped_by' => $this->session->userdata['loginname'],
+            );
         }
-        
+
         $this->db->where('event_id', $id);
         $this->db->where('name', $name);
-         $this->db->update('content', $data);
+        $this->db->update('content', $data);
     }
 
     function getEventData($id) {
@@ -57,16 +67,23 @@ class Events_model extends CI_Model {
         }
     }
 
-    function getUserEvents($name) {
-        $select = $this->db->select('*')
-                ->where('create_by', $name)
-                ->get('events');
+    function getUserEvents() {
+        $this->db->select('*');
+        $this->db->from('user_has_event');
+        $this->db->join('events', 'events.id = user_has_event.event_id');
+        $this->db->where('user_has_event.user_id', $this->session->userdata['id']);
 
-        if ($select->num_rows() > 0) {
-            return $select->result_array();
-        } else {
+        $query = $this->db->get();
+
+        $result = array();
+        if ($query->num_rows() > 0){
+            
+            $result = $query->result_array();
+            //print_r($result);
+            return $result;
+        }else
             return false;
-        }
+
     }
 
     function deleteEvent($id) {
@@ -93,5 +110,13 @@ class Events_model extends CI_Model {
             return false;
         }
     }
-
+    
+    function addEventContent($id) {
+        $data = array(
+            'name' => $_POST['add'],
+            'equipped' => 0,
+            'event_id' => $id,
+        );
+        return $this->db->insert('content', $data);
+    }
 }
