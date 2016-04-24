@@ -61,7 +61,7 @@ $this->load->view('header2', $udaj);
             color: #E13300;
         }
     </style>
-
+<!--<hr>-->
     <header>
         <div class="header-content">
             <div class="header-content-inner">
