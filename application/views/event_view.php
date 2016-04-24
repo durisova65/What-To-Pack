@@ -107,8 +107,18 @@ $this->load->view('header2', $name);
                     <div class="wrapper">
                         <span class="group-btn">     
                             <a href="<?= base_url("events/deleteEvent/" . $id) ?>" class="btn btn-primary btn-md page-scroll">Delete event</a>
+
                             <a href="<?= base_url("events/addUserForEvent/" . $id) ?>" class="btn btn-primary btn-md  page-scroll">Add user</a>
-                            <a href="<?= base_url("events/addContentForEvent/" . $id) ?>" class="btn btn-primary btn-md  page-scroll">Add TODO</a>
+
+                            <div class="input-group">
+                                <?php echo form_open(base_url("events/addContentForEvent/" . $id)); ?>
+                                <input type="text" name="add" id="add" class="form-control" placeholder="Add new TODO ...">
+                                <div class="input-group-btn">
+
+                                    <input name="submit" value="Add" class="btn btn-primary btn-md" type="submit" >
+                                </div>
+                                <?php echo form_close(); ?>
+                            </div>
                         </span>
                     </div>
                 </div>
@@ -152,19 +162,19 @@ $this->load->view('header2', $name);
 
             </div>
         </div>
-</header>
+    </header>
 
-<!-- jQuery -->
-<script src="js/jquery.js"></script>
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
 
-<!-- Bootstrap Core JavaScript -->
-<script src="<?= base_url() ?>js/bootstrap.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="<?= base_url() ?>js/bootstrap.min.js"></script>
 
-<!-- Plugin JavaScript -->
-<script src="js/jquery.easing.min.js"></script>
-<script src="js/jquery.fittext.js"></script>
-<script src="js/wow.min.js"></script>
+    <!-- Plugin JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/jquery.fittext.js"></script>
+    <script src="js/wow.min.js"></script>
 
-<!-- Custom Theme JavaScript -->
-<script src="<?= base_url() ?>js/creative.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="<?= base_url() ?>js/creative.js"></script>
 </body>
