@@ -74,6 +74,11 @@ class Events extends CI_Controller {
     }
     
     function addContentForEvent($id){
+        if($this->events_model->addEventContent($id)){
+            $this->load->view('event_view', $this->events_model->getEventData($id));
+        }else {
+            echo 'delete event denied.';
+        }
         $this->load->view('event_view', $this->events_model->getEventData($id));
     }
 
