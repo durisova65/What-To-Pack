@@ -78,7 +78,7 @@ $this->load->view('header2', $udaj);
                         if ($data) {
                             foreach ($data as $row) {
                                 echo '<button class="btn btn-warning btn-xl page-scroll" >';
-                                echo $row['name'];
+                                echo $row['loginname'];
                                 echo '</button>';
                             }
                         }
@@ -86,12 +86,16 @@ $this->load->view('header2', $udaj);
                         ?>
                         <h4>Users in my events:</h4>
                         <?php
-                        $data = $this->users_model->getUserEventsUsers($this->session->userdata['loginname']);
+                        $data = $this->users_model->getUserEventsUsers();
                         if ($data) {
                             foreach ($data as $row) {
-                                echo '<button class="btn btn-warning btn-xl page-scroll" >';
-                                echo $row['name'];
-                                echo '</button>';
+                                if($row['user_id'] != $this->session->userdata['id']){
+                                    $user = $this->users_model->getUserData($row['user_id']);
+                                    echo '<button class="btn btn-warning btn-xl page-scroll" >';
+                                    echo $user['loginname'];
+                                    echo '</button>';
+                                }
+                                
                             }
                         }
                     }
